@@ -1,0 +1,51 @@
+{
+  "name": "dnd-oracle",
+  "version": "0.1.0",
+  "description": "D&D 5e SRD MCP server — monster search, spell lookup, encounter building, and character tools powered by ground-truth SRD data",
+  "type": "module",
+  "main": "dist/server.js",
+  "bin": {
+    "dnd-oracle": "dist/server.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc && mkdir -p dist/data && cp src/data/schema.sql dist/data/schema.sql && (test -f src/data/dnd.sqlite && cp src/data/dnd.sqlite dist/data/dnd.sqlite || true) && chmod +x dist/server.js",
+    "start": "node dist/server.js",
+    "dev": "tsx src/server.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "fetch-data": "tsx scripts/fetch-data.ts",
+    "inspect": "npx @modelcontextprotocol/inspector node dist/server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "mcp",
+    "dnd",
+    "dungeons-and-dragons",
+    "5e",
+    "srd",
+    "rpg",
+    "oracle"
+  ],
+  "mcpName": "io.github.gregario/dnd-oracle",
+  "author": "gregario",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12",
+    "better-sqlite3": "^12.8",
+    "zod": "^3.25"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6",
+    "@types/node": "^22.0",
+    "tsx": "^4.0",
+    "typescript": "^5.8",
+    "vitest": "^3.0"
+  }
+}
