@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "build": "tsc && mkdir -p dist/data && cp src/data/schema.sql dist/data/schema.sql && (test -f src/data/dnd.sqlite && cp src/data/dnd.sqlite dist/data/dnd.sqlite || true) && chmod +x dist/server.js",
-    "prepare": "npm run build",
+    "prepublishOnly": "npm run build",
     "start": "node dist/server.js",
     "dev": "tsx src/server.ts",
     "test": "vitest run",
