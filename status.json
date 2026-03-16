@@ -7,6 +7,6 @@
   "glama": { "listed": true, "score_badge": true, "ownership_claimed": true },
   "mcp_registry": { "registered": true, "mcp_name": "io.github.gregario/dnd-oracle" },
   "awesome_mcp_servers": { "pr_submitted": false, "pr_url": null },
-  "github": { "release_tag": null, "sponsor_enabled": true },
-  "ci": { "oidc_publishing": false, "workflow": null }
+  "github": { "release_tag": "v0.1.0", "sponsor_enabled": true },
+  "ci": { "oidc_publishing": true, "workflow": "sync-data.yml" }
 }
