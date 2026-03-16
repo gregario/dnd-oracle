@@ -3,7 +3,7 @@
   "tools_count": 10,
   "tests_count": 103,
   "entities_count": 1198,
-  "npm": { "published": false, "version": null },
+  "npm": { "published": true, "version": "0.1.0" },
   "glama": { "listed": false, "score_badge": true, "ownership_claimed": false },
   "mcp_registry": { "registered": false, "mcp_name": "io.github.gregario/dnd-oracle" },
   "awesome_mcp_servers": { "pr_submitted": false, "pr_url": null },
