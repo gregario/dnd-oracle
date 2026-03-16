@@ -15,8 +15,7 @@ out/
 *.so
 *.dylib
 
-# Data files
-*.sqlite
+# Data files (dnd.sqlite is tracked — CC-BY-4.0 SRD data, needed for Glama deploy)
 *.db
 
 # Environment
