@@ -24,7 +24,7 @@ function safeParseJson<T>(value: string | null): T | null {
 
 interface NameDesc {
   name: string;
-  desc: string;
+  description: string;
 }
 
 function formatSpeed(speedJson: string): string {
@@ -54,7 +54,7 @@ function formatAbilitiesSection(label: string, monsters: MonsterRow[], field: ke
       lines.push('*None*');
     } else {
       for (const a of abilities) {
-        lines.push(`- **${a.name}.** ${a.desc}`);
+        lines.push(`- **${a.name}.** ${a.description}`);
       }
     }
     lines.push('');

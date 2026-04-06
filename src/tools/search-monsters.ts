@@ -24,7 +24,7 @@ function safeParseJson<T>(value: string | null): T | null {
 
 interface NameDesc {
   name: string;
-  desc: string;
+  description: string;
 }
 
 function formatSpeed(speedJson: string): string {
@@ -38,7 +38,7 @@ function formatSpeed(speedJson: string): string {
 function formatAbilities(label: string, abilities: NameDesc[] | null): string {
   if (!abilities || abilities.length === 0) return '';
   const lines = abilities
-    .map((a) => `- **${a.name}.** ${a.desc}`)
+    .map((a) => `- **${a.name}.** ${a.description}`)
     .join('\n');
   return `\n**${label}:**\n${lines}`;
 }
