@@ -13,7 +13,7 @@ import { registerBuildEncounter } from './tools/build-encounter.js';
 import { registerPlanSpells } from './tools/plan-spells.js';
 import { registerCompareMonsters } from './tools/compare-monsters.js';
 import { registerAnalyzeLoadout } from './tools/analyze-loadout.js';
-import { readFileSync } from 'node:fs';
+import { readFileSync, realpathSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import type Database from 'better-sqlite3';
@@ -62,7 +62,7 @@ export function createServer(options?: ServerOptions): McpServer {
 // Only start stdio when run directly
 const isMain =
   process.argv[1] &&
-  fileURLToPath(import.meta.url).includes(process.argv[1]);
+  realpathSync(process.argv[1]) === fileURLToPath(import.meta.url);
 if (isMain) {
   console.error('dnd-oracle MCP server starting...');
   const server = createServer();
