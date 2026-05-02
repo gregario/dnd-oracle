@@ -35,6 +35,14 @@
     "oracle"
   ],
   "mcpName": "io.github.gregario/dnd-oracle",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gregario/dnd-oracle.git"
+  },
+  "homepage": "https://github.com/gregario/dnd-oracle#readme",
+  "bugs": {
+    "url": "https://github.com/gregario/dnd-oracle/issues"
+  },
   "author": "gregario",
   "license": "MIT",
   "dependencies": {
