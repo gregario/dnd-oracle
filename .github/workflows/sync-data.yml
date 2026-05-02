@@ -63,7 +63,10 @@ jobs:
       - name: Bump version, sync manifests, publish, tag, release
         if: steps.diff.outputs.changed == 'true'
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # No NODE_AUTH_TOKEN — npm publish authenticates via OIDC trusted
+          # publisher (configured at npmjs.com → package → access). Setting
+          # NODE_AUTH_TOKEN would override OIDC and use the token instead,
+          # which fails with 404 if the token's scope doesn't include this package.
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
