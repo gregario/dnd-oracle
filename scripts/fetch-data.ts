@@ -17,8 +17,10 @@ const DATA_DIR = path.join(__dirname, '..', 'src', 'data');
 const DB_PATH = path.join(DATA_DIR, 'dnd.sqlite');
 const SCHEMA_PATH = path.join(DATA_DIR, 'schema.sql');
 
+// Upstream restructured 2026-04-ish: files moved from src/2014/*.json
+// into src/2014/en/*.json (locale layer added — fr-FR, pt-BR, ru also exist).
 const BASE_URL =
-  'https://raw.githubusercontent.com/5e-bits/5e-database/main/src/2014';
+  'https://raw.githubusercontent.com/5e-bits/5e-database/main/src/2014/en';
 
 // Files to fetch
 const DATA_FILES = {
