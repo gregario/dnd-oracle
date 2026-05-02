@@ -1,0 +1,21 @@
+{
+  "$schema": "https://glama.ai/mcp/schemas/server.json",
+  "maintainers": ["gregario"],
+  "relatedServers": [
+    {
+      "name": "warhammer-oracle",
+      "url": "https://glama.ai/mcp/servers/gregario/warhammer-oracle",
+      "description": "Warhammer 40K and Kill Team rules, stats, and game flow"
+    },
+    {
+      "name": "lorcana-oracle",
+      "url": "https://glama.ai/mcp/servers/gregario/lorcana-oracle",
+      "description": "Disney Lorcana TCG card search and deck analysis"
+    },
+    {
+      "name": "mtg-oracle",
+      "url": "https://glama.ai/mcp/servers/gregario/mtg-oracle",
+      "description": "Magic: The Gathering card search and deck analysis"
+    }
+  ]
+}

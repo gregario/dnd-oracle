@@ -19,7 +19,7 @@ jobs:
 
       - uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: '20'
           registry-url: https://registry.npmjs.org
           cache: npm
 
@@ -48,24 +48,62 @@ jobs:
         if: steps.diff.outputs.changed == 'true'
         run: npm test
 
-      - name: Commit updated data
+      - name: Configure git
         if: steps.diff.outputs.changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/data/
-          git commit -m "chore: sync 5e SRD data ($(date -u +%Y-%m-%d))"
-          git pull --rebase
-          git push
 
-      - name: Bump version and publish to npm
+      - name: Commit data sync
         if: steps.diff.outputs.changed == 'true'
         run: |
-          npm version patch --no-git-tag-version
+          git add src/data/
+          git commit -m "chore: sync 5e SRD data ($(date -u +%Y-%m-%d))"
+
+      - name: Bump version, sync manifests, publish, tag, release
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          NEW_VERSION=$(npm version patch --no-git-tag-version | sed 's/^v//')
+          export NEW_VERSION
+          echo "Releasing v$NEW_VERSION"
+
+          # Sync server.json (MCP Registry manifest)
+          node -e "
+            const fs = require('fs');
+            const v = process.env.NEW_VERSION;
+            const s = JSON.parse(fs.readFileSync('server.json', 'utf8'));
+            s.version = v;
+            if (s.packages && s.packages[0]) s.packages[0].version = v;
+            fs.writeFileSync('server.json', JSON.stringify(s, null, 2) + '\n');
+          "
+
+          # Sync status.json (factory tracker)
+          node -e "
+            const fs = require('fs');
+            const v = process.env.NEW_VERSION;
+            const s = JSON.parse(fs.readFileSync('status.json', 'utf8'));
+            s.version = v;
+            if (s.npm) s.npm.version = v;
+            if (s.github) s.github.release_tag = 'v' + v;
+            fs.writeFileSync('status.json', JSON.stringify(s, null, 2) + '\n');
+          "
+
           npm run build
           npm publish --access public --provenance
-          # Commit the version bump
-          git add package.json package-lock.json
-          git commit -m "chore: bump version for data sync publish"
-          git pull --rebase
-          git push
+
+          git add package.json package-lock.json server.json status.json
+          git commit -m "chore: release v$NEW_VERSION (data sync)"
+          git tag "v$NEW_VERSION"
+
+          git pull --rebase origin main
+          git push origin main
+          git push origin "v$NEW_VERSION"
+
+          gh release create "v$NEW_VERSION" \
+            --title "v$NEW_VERSION" \
+            --generate-notes

@@ -1,12 +1,12 @@
 {
-  "version": "0.1.0",
+  "version": "0.1.1",
   "tools_count": 10,
   "tests_count": 103,
   "entities_count": 1198,
-  "npm": { "published": true, "version": "0.1.0" },
+  "npm": { "published": true, "version": "0.1.1" },
   "glama": { "listed": true, "score_badge": true, "ownership_claimed": true },
   "mcp_registry": { "registered": true, "mcp_name": "io.github.gregario/dnd-oracle" },
   "awesome_mcp_servers": { "pr_submitted": true, "pr_url": "https://github.com/punkpeye/awesome-mcp-servers/pull/3351" },
-  "github": { "release_tag": "v0.1.0", "sponsor_enabled": true },
+  "github": { "release_tag": "v0.1.1", "sponsor_enabled": true },
   "ci": { "oidc_publishing": true, "workflow": "sync-data.yml" }
 }
