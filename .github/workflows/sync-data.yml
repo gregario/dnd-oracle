@@ -97,6 +97,10 @@ jobs:
           "
 
           npm run build
+
+          # OIDC trusted publishing requires npm >= 11.5.1; Node 20 ships
+          # with npm 10. Upgrade just for this step.
+          npm install -g npm@latest
           npm publish --access public --provenance
 
           git add package.json package-lock.json server.json status.json
