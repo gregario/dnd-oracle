@@ -70,7 +70,7 @@ export function registerMagicItemAttunement(
       for (const item of found) {
         const attStr = item.requires_attunement ? 'Yes' : 'No';
         const restriction = item.attunement_description
-          ? item.attunement_description.replace(/^requires attunement\s*/i, '').trim() || '—'
+          ? item.attunement_description.replace(/^requires attunement\s*/i, '').replace(/^\)\s*/, '').replace(/\)$/, '').trim() || '—'
           : '—';
         lines.push(`| ${item.name} | ${item.rarity} | ${attStr} | ${restriction} |`);
       }
@@ -105,9 +105,9 @@ export function registerMagicItemAttunement(
         lines.push('## Requires Attunement');
         lines.push('');
         for (const item of needsAttunement) {
-          const restriction = item.attunement_description
-            ? ` — *${item.attunement_description}*`
-            : '';
+          const rawDesc = item.attunement_description ?? '';
+          const cleanDesc = rawDesc.replace(/^requires attunement\s*/i, '').replace(/^\)\s*/, '').replace(/\)$/, '').trim();
+          const restriction = cleanDesc ? ` — *${cleanDesc}*` : '';
           lines.push(`- **${item.name}** (${item.rarity})${restriction}`);
         }
         lines.push('');

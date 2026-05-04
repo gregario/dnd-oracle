@@ -12,6 +12,17 @@ interface RaceTrait {
 
 const ALL_SAVES = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'];
 
+const SAVE_ALIASES: Record<string, string> = {
+  str: 'Strength', dex: 'Dexterity', con: 'Constitution',
+  int: 'Intelligence', wis: 'Wisdom', cha: 'Charisma',
+  strength: 'Strength', dexterity: 'Dexterity', constitution: 'Constitution',
+  intelligence: 'Intelligence', wisdom: 'Wisdom', charisma: 'Charisma',
+};
+
+function normalizeSave(s: string): string {
+  return SAVE_ALIASES[s.toLowerCase()] ?? s;
+}
+
 const ROLE_MAP: Record<string, string[]> = {
   barbarian: ['striker', 'tank'],
   bard: ['healer', 'controller', 'utility'],
@@ -73,7 +84,7 @@ export function registerAnalyzeParty(
 
         const className = cls.name.toLowerCase();
         const saves = safeParseJsonOr<string[]>(cls.saving_throws, []);
-        for (const s of saves) savesCovered.add(s);
+        for (const s of saves) savesCovered.add(normalizeSave(s));
 
         const roles = ROLE_MAP[className] ?? [];
         for (const r of roles) rolesPresent.add(r);

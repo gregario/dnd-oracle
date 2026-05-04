@@ -21,9 +21,16 @@ interface AbilityBonus {
 const ABILITY_NAMES = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'];
 const ABILITY_SHORT = ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA'];
 
+function matchesSave(stored: string, ability: string): boolean {
+  const s = stored.toLowerCase();
+  const a = ability.toLowerCase();
+  return s === a || s === a.slice(0, 3);
+}
+
 function getSpellcastingAbilityIndex(ability: string | null): number {
   if (!ability) return -1;
-  return ABILITY_NAMES.findIndex((a) => a.toLowerCase() === ability.toLowerCase());
+  const lower = ability.toLowerCase();
+  return ABILITY_NAMES.findIndex((a) => a.toLowerCase() === lower || a.toLowerCase().startsWith(lower));
 }
 
 export function registerBuildCharacter(
@@ -116,7 +123,7 @@ export function registerBuildCharacter(
       lines.push('|------|----------|-----------|');
       for (let i = 0; i < 6; i++) {
         const mod = abilityModifier(finalScores[i]);
-        const prof = classSaves.some((s) => s.toLowerCase() === ABILITY_NAMES[i].toLowerCase());
+        const prof = classSaves.some((s) => matchesSave(s, ABILITY_NAMES[i]));
         const total = mod + (prof ? profBonus : 0);
         const totalStr = total >= 0 ? `+${total}` : `${total}`;
         lines.push(`| ${ABILITY_NAMES[i]} | ${totalStr} | ${prof ? '✓' : '—'} |`);
