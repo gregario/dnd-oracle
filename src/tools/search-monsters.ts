@@ -3,36 +3,11 @@ import { z } from 'zod';
 import type Database from 'better-sqlite3';
 import { searchMonsters, getXpForCr } from '../data/db.js';
 import type { MonsterRow } from '../types.js';
-
-function abilityMod(score: number): string {
-  const mod = Math.floor((score - 10) / 2);
-  return mod >= 0 ? `+${mod}` : `${mod}`;
-}
-
-function formatAbilityScore(score: number): string {
-  return `${score} (${abilityMod(score)})`;
-}
-
-function safeParseJson<T>(value: string | null): T | null {
-  if (!value) return null;
-  try {
-    return JSON.parse(value) as T;
-  } catch {
-    return null;
-  }
-}
+import { safeParseJson, formatAbilityScore, formatSpeed } from '../lib/format.js';
 
 interface NameDesc {
   name: string;
   description: string;
-}
-
-function formatSpeed(speedJson: string): string {
-  const speed = safeParseJson<Record<string, string | number>>(speedJson);
-  if (!speed) return speedJson;
-  return Object.entries(speed)
-    .map(([key, val]) => (key === 'walk' ? `${val} ft.` : `${key} ${val} ft.`))
-    .join(', ');
 }
 
 function formatAbilities(label: string, abilities: NameDesc[] | null): string {

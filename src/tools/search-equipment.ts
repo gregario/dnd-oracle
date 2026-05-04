@@ -3,15 +3,7 @@ import { z } from 'zod';
 import type Database from 'better-sqlite3';
 import { searchEquipment } from '../data/db.js';
 import type { EquipmentRow, MagicItemRow } from '../types.js';
-
-function safeParseJson<T>(value: string | null): T | null {
-  if (!value) return null;
-  try {
-    return JSON.parse(value) as T;
-  } catch {
-    return null;
-  }
-}
+import { safeParseJson } from '../lib/format.js';
 
 function formatCost(costGp: number | null, costUnit: string | null): string {
   if (costGp === null || costGp === undefined) return 'N/A';

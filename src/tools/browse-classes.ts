@@ -2,34 +2,8 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
 import type Database from 'better-sqlite3';
 import { listClasses, getClassByName } from '../data/db.js';
-
-const SPELL_SLOT_TABLE: Record<number, number[]> = {
-  1: [2],
-  2: [3],
-  3: [4, 2],
-  4: [4, 3],
-  5: [4, 3, 2],
-  6: [4, 3, 3],
-  7: [4, 3, 3, 1],
-  8: [4, 3, 3, 2],
-  9: [4, 3, 3, 3, 1],
-  10: [4, 3, 3, 3, 2],
-  11: [4, 3, 3, 3, 2, 1],
-  12: [4, 3, 3, 3, 2, 1],
-  13: [4, 3, 3, 3, 2, 1, 1],
-  14: [4, 3, 3, 3, 2, 1, 1],
-  15: [4, 3, 3, 3, 2, 1, 1, 1],
-  16: [4, 3, 3, 3, 2, 1, 1, 1],
-  17: [4, 3, 3, 3, 2, 1, 1, 1, 1],
-  18: [4, 3, 3, 3, 3, 1, 1, 1, 1],
-  19: [4, 3, 3, 3, 3, 2, 1, 1, 1],
-  20: [4, 3, 3, 3, 3, 2, 2, 1, 1],
-};
-
-const FULL_CASTERS = new Set(['bard', 'cleric', 'druid', 'sorcerer', 'wizard']);
-const HALF_CASTERS = new Set(['paladin', 'ranger']);
-// Third casters are subclass-dependent (Eldritch Knight, Arcane Trickster)
-const THIRD_CASTER_CLASSES = new Set(['fighter', 'rogue']);
+import { safeParseJsonOr } from '../lib/format.js';
+import { FULL_CASTERS, HALF_CASTERS, THIRD_CASTER_CLASSES, FULL_CASTER_SLOTS } from '../lib/class-mechanics.js';
 
 interface ClassFeature {
   level: number;
@@ -43,12 +17,7 @@ interface MulticlassEntry {
 }
 
 function safeJsonParse<T>(value: string | null, fallback: T): T {
-  if (!value) return fallback;
-  try {
-    return JSON.parse(value) as T;
-  } catch {
-    return fallback;
-  }
+  return safeParseJsonOr(value, fallback);
 }
 
 function formatFeature(feature: ClassFeature): string {
@@ -66,7 +35,7 @@ function getCasterLevel(className: string, classLevel: number): number {
 function formatSpellSlots(casterLevel: number): string {
   if (casterLevel <= 0) return 'No spell slots (non-caster combination)';
   const effectiveLevel = Math.min(casterLevel, 20);
-  const slots = SPELL_SLOT_TABLE[effectiveLevel];
+  const slots = FULL_CASTER_SLOTS[effectiveLevel];
   if (!slots) return 'No spell slots';
   return slots
     .map((count, i) => `${getOrdinal(i + 1)} level: ${count}`)

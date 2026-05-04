@@ -3,15 +3,7 @@ import { z } from 'zod';
 import type Database from 'better-sqlite3';
 import { searchSpells } from '../data/db.js';
 import type { SpellRow } from '../types.js';
-
-function safeParseJson<T>(value: string | null): T | null {
-  if (!value) return null;
-  try {
-    return JSON.parse(value) as T;
-  } catch {
-    return null;
-  }
-}
+import { safeParseJson } from '../lib/format.js';
 
 function levelLabel(level: number): string {
   if (level === 0) return 'Cantrip';

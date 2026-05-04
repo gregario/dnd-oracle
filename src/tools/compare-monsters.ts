@@ -3,36 +3,11 @@ import { z } from 'zod';
 import type Database from 'better-sqlite3';
 import { getMonsterByName, getXpForCr } from '../data/db.js';
 import type { MonsterRow } from '../types.js';
-
-function abilityMod(score: number): string {
-  const mod = Math.floor((score - 10) / 2);
-  return mod >= 0 ? `+${mod}` : `${mod}`;
-}
-
-function formatScore(score: number): string {
-  return `${score} (${abilityMod(score)})`;
-}
-
-function safeParseJson<T>(value: string | null): T | null {
-  if (!value) return null;
-  try {
-    return JSON.parse(value) as T;
-  } catch {
-    return null;
-  }
-}
+import { safeParseJson, formatAbilityScore, formatSpeed } from '../lib/format.js';
 
 interface NameDesc {
   name: string;
   description: string;
-}
-
-function formatSpeed(speedJson: string): string {
-  const speed = safeParseJson<Record<string, string | number>>(speedJson);
-  if (!speed) return speedJson;
-  return Object.entries(speed)
-    .map(([key, val]) => (key === 'walk' ? `${val} ft.` : `${key} ${val} ft.`))
-    .join(', ');
 }
 
 function formatAbilitiesSection(label: string, monsters: MonsterRow[], field: keyof MonsterRow): string {
@@ -137,12 +112,12 @@ export function registerCompareMonsters(
       lines.push(`| Prof. Bonus | ${monsters.map((m) => m.proficiency_bonus ? `+${m.proficiency_bonus}` : '—').join(' | ')} |`);
 
       // Ability scores
-      lines.push(`| STR | ${monsters.map((m) => formatScore(m.str)).join(' | ')} |`);
-      lines.push(`| DEX | ${monsters.map((m) => formatScore(m.dex)).join(' | ')} |`);
-      lines.push(`| CON | ${monsters.map((m) => formatScore(m.con)).join(' | ')} |`);
-      lines.push(`| INT | ${monsters.map((m) => formatScore(m.int)).join(' | ')} |`);
-      lines.push(`| WIS | ${monsters.map((m) => formatScore(m.wis)).join(' | ')} |`);
-      lines.push(`| CHA | ${monsters.map((m) => formatScore(m.cha)).join(' | ')} |`);
+      lines.push(`| STR | ${monsters.map((m) => formatAbilityScore(m.str)).join(' | ')} |`);
+      lines.push(`| DEX | ${monsters.map((m) => formatAbilityScore(m.dex)).join(' | ')} |`);
+      lines.push(`| CON | ${monsters.map((m) => formatAbilityScore(m.con)).join(' | ')} |`);
+      lines.push(`| INT | ${monsters.map((m) => formatAbilityScore(m.int)).join(' | ')} |`);
+      lines.push(`| WIS | ${monsters.map((m) => formatAbilityScore(m.wis)).join(' | ')} |`);
+      lines.push(`| CHA | ${monsters.map((m) => formatAbilityScore(m.cha)).join(' | ')} |`);
 
       // Defenses
       lines.push(`| Resistances | ${monsters.map((m) => m.resistances ?? '—').join(' | ')} |`);

@@ -123,6 +123,15 @@ export interface RuleRow {
   description: string;
 }
 
+export interface RollableTableRow {
+  id: number;
+  name: string;
+  category: string;
+  description: string | null;
+  die_type: string;
+  entries: string; // JSON array of {min: number, max: number, text: string}
+}
+
 // Filter types
 
 export interface MonsterFilters {

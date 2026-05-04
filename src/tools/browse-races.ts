@@ -2,6 +2,7 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
 import type Database from 'better-sqlite3';
 import { listRaces, getRaceByName } from '../data/db.js';
+import { safeParseJsonOr } from '../lib/format.js';
 
 interface AbilityBonus {
   ability?: string;
@@ -22,12 +23,7 @@ interface Subrace {
 }
 
 function safeJsonParse<T>(value: string | null, fallback: T): T {
-  if (!value) return fallback;
-  try {
-    return JSON.parse(value) as T;
-  } catch {
-    return fallback;
-  }
+  return safeParseJsonOr(value, fallback);
 }
 
 function formatAbilityBonuses(bonuses: AbilityBonus[]): string {

@@ -13,6 +13,16 @@ import { registerBuildEncounter } from './tools/build-encounter.js';
 import { registerPlanSpells } from './tools/plan-spells.js';
 import { registerCompareMonsters } from './tools/compare-monsters.js';
 import { registerAnalyzeLoadout } from './tools/analyze-loadout.js';
+import { registerCheckResistances } from './tools/check-resistances.js';
+import { registerMagicItemAttunement } from './tools/magic-item-attunement.js';
+import { registerSimulateDamage } from './tools/simulate-damage.js';
+import { registerAnalyzeParty } from './tools/analyze-party.js';
+import { registerBuildCharacter } from './tools/build-character.js';
+import { registerRestCalculator } from './tools/rest-calculator.js';
+import { registerTravelCalculator } from './tools/travel-calculator.js';
+import { registerPlanAdventuringDay } from './tools/plan-adventuring-day.js';
+import { registerRollTable } from './tools/roll-table.js';
+import { registerSuggestEncounter } from './tools/suggest-encounter.js';
 import { readFileSync, realpathSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -55,6 +65,16 @@ export function createServer(options?: ServerOptions): McpServer {
   registerPlanSpells(server, db);
   registerCompareMonsters(server, db);
   registerAnalyzeLoadout(server, db);
+  registerCheckResistances(server, db);
+  registerMagicItemAttunement(server, db);
+  registerSimulateDamage(server, db);
+  registerAnalyzeParty(server, db);
+  registerBuildCharacter(server, db);
+  registerRestCalculator(server, db);
+  registerTravelCalculator(server, db);
+  registerPlanAdventuringDay(server, db);
+  registerRollTable(server, db);
+  registerSuggestEncounter(server, db);
 
   return server;
 }

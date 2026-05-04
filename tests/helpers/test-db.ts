@@ -311,6 +311,41 @@ export function seedTestData(db: Database.Database): void {
   insertRule.run('Ability Checks', 'Using Ability Scores', 'An ability check tests a character\'s or monster\'s innate talent and training in an effort to overcome a challenge. The GM calls for an ability check when a character or monster attempts an action (other than an attack) that has a chance of failure.');
   insertRule.run('Saving Throws', 'Using Ability Scores', 'A saving throw represents an attempt to resist a spell, a trap, a poison, a disease, or a similar threat. You don\'t normally decide to make a saving throw; you are forced to make one because your character or monster is at risk of harm.');
   insertRule.run('Cover', 'Combat', 'Walls, trees, creatures, and other obstacles can provide cover during combat, making a target more difficult to harm. A target with half cover has a +2 bonus to AC and Dexterity saving throws. A target with three-quarters cover has a +5 bonus.');
+
+  // Rollable Tables
+  const insertTable = db.prepare(`
+    INSERT INTO rollable_tables (name, category, description, die_type, entries)
+    VALUES (?, ?, ?, ?, ?)
+  `);
+
+  insertTable.run(
+    'Short-Term Madness', 'madness',
+    'Effects lasting 1d10 minutes.',
+    'd100',
+    JSON.stringify([
+      { min: 1, max: 20, text: 'The character retreats into his or her mind and becomes paralyzed.' },
+      { min: 21, max: 30, text: 'The character becomes incapacitated and spends the duration screaming, laughing, or weeping.' },
+      { min: 31, max: 40, text: 'The character becomes frightened and must flee from the source of the fear.' },
+      { min: 41, max: 50, text: 'The character begins babbling and is incapable of normal speech or spellcasting.' },
+      { min: 51, max: 60, text: 'The character must attack the nearest creature.' },
+      { min: 61, max: 70, text: 'The character experiences vivid hallucinations and has disadvantage on ability checks.' },
+      { min: 71, max: 75, text: 'The character does whatever anyone tells him or her to do.' },
+      { min: 76, max: 80, text: 'The character experiences an overpowering urge to eat something strange.' },
+      { min: 81, max: 90, text: 'The character is stunned.' },
+      { min: 91, max: 100, text: 'The character falls unconscious.' },
+    ])
+  );
+
+  insertTable.run(
+    'Poisons', 'poison',
+    'SRD poisons with type, price, and effects.',
+    'd14',
+    JSON.stringify([
+      { min: 1, max: 1, text: 'Assassin\'s Blood (Ingested, 150 gp): DC 10 CON save or take 6 (1d12) poison damage.' },
+      { min: 2, max: 2, text: 'Burnt Othur Fumes (Inhaled, 500 gp): DC 13 CON save or take 10 (3d6) poison damage.' },
+      { min: 3, max: 3, text: 'Crawler Mucus (Contact, 200 gp): DC 13 CON save or be poisoned for 1 minute and paralyzed.' },
+    ])
+  );
 }
 
 export function createTestDb(): Database.Database {

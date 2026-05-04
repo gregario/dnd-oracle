@@ -455,6 +455,162 @@ function transformRuleSection(rs: RawRuleSection) {
   };
 }
 
+// -- SRD Rollable Tables (hardcoded from SRD 5.1 content) --
+
+function getSrdRollableTables() {
+  return [
+    {
+      name: 'Short-Term Madness',
+      category: 'madness',
+      description: 'Effects lasting 1d10 minutes. Triggered by spells, abilities, or horrific events.',
+      die_type: 'd100',
+      entries: JSON.stringify([
+        { min: 1, max: 20, text: 'The character retreats into his or her mind and becomes paralyzed. The effect ends if the character takes any damage.' },
+        { min: 21, max: 30, text: 'The character becomes incapacitated and spends the duration screaming, laughing, or weeping.' },
+        { min: 31, max: 40, text: 'The character becomes frightened and must use his or her action and movement each round to flee from the source of the fear.' },
+        { min: 41, max: 50, text: 'The character begins babbling and is incapable of normal speech or spellcasting.' },
+        { min: 51, max: 60, text: 'The character must use his or her action each round to attack the nearest creature.' },
+        { min: 61, max: 70, text: 'The character experiences vivid hallucinations and has disadvantage on ability checks.' },
+        { min: 71, max: 75, text: 'The character does whatever anyone tells him or her to do that isn\'t obviously self-destructive.' },
+        { min: 76, max: 80, text: 'The character experiences an overpowering urge to eat something strange such as dirt, slime, or offal.' },
+        { min: 81, max: 90, text: 'The character is stunned.' },
+        { min: 91, max: 100, text: 'The character falls unconscious.' },
+      ]),
+    },
+    {
+      name: 'Long-Term Madness',
+      category: 'madness',
+      description: 'Effects lasting 1d10 × 10 hours. Triggered by prolonged exposure to horror or powerful magic.',
+      die_type: 'd100',
+      entries: JSON.stringify([
+        { min: 1, max: 10, text: 'The character feels compelled to repeat a specific activity over and over, such as washing hands, touching things, praying, or counting coins.' },
+        { min: 11, max: 20, text: 'The character experiences vivid hallucinations and has disadvantage on ability checks.' },
+        { min: 21, max: 30, text: 'The character suffers extreme paranoia. The character has disadvantage on Wisdom and Charisma checks.' },
+        { min: 31, max: 40, text: 'The character regards something (usually the source of madness) with intense revulsion, as if affected by the antipathy effect of the antipathy/sympathy spell.' },
+        { min: 41, max: 45, text: 'The character experiences a powerful delusion. Choose a potion. The character imagines that he or she is under its effects.' },
+        { min: 46, max: 55, text: 'The character becomes attached to a "lucky charm," such as a person or an object, and has disadvantage on attack rolls, ability checks, and saving throws while more than 30 feet from it.' },
+        { min: 56, max: 65, text: 'The character is blinded (25%) or deafened (75%).' },
+        { min: 66, max: 75, text: 'The character experiences uncontrollable tremors or tics, which impose disadvantage on attack rolls, ability checks, and saving throws that involve Strength or Dexterity.' },
+        { min: 76, max: 85, text: 'The character suffers from partial amnesia. The character knows who he or she is and retains racial traits and class features, but doesn\'t recognize other people or remember anything before the madness took effect.' },
+        { min: 86, max: 90, text: 'Whenever the character takes damage, he or she must succeed on a DC 15 Wisdom saving throw or be affected as though he or she failed a saving throw against the confusion spell. The confusion effect lasts for 1 minute.' },
+        { min: 91, max: 95, text: 'The character loses the ability to speak.' },
+        { min: 96, max: 100, text: 'The character falls unconscious. No amount of jostling or damage can wake the character.' },
+      ]),
+    },
+    {
+      name: 'Indefinite Madness',
+      category: 'madness',
+      description: 'Flaws that last until cured by greater restoration or similar magic.',
+      die_type: 'd100',
+      entries: JSON.stringify([
+        { min: 1, max: 15, text: '"Being drunk keeps me sane."' },
+        { min: 16, max: 25, text: '"I keep whatever I find."' },
+        { min: 26, max: 30, text: '"I try to become more like someone else I know — adopting his or her style of dress, mannerisms, and name."' },
+        { min: 31, max: 35, text: '"I must bend the truth, exaggerate, or outright lie to be interesting to other people."' },
+        { min: 36, max: 45, text: '"Achieving my goal is the only thing of interest to me, and I\'ll ignore everything else to pursue it."' },
+        { min: 46, max: 50, text: '"I find it hard to care about anything that goes on around me."' },
+        { min: 51, max: 55, text: '"I don\'t like the way people judge me all the time."' },
+        { min: 56, max: 70, text: '"I am the smartest, wisest, strongest, fastest, and most beautiful person I know."' },
+        { min: 71, max: 80, text: '"I am convinced that powerful enemies are hunting me, and their agents are everywhere I go. I am sure they\'re watching me all the time."' },
+        { min: 81, max: 85, text: '"There\'s only one person I can trust. And only I can see this special friend."' },
+        { min: 86, max: 95, text: '"I can\'t take anything seriously. The more serious the situation, the funnier I find it."' },
+        { min: 96, max: 100, text: '"I\'ve discovered that I really like killing people."' },
+      ]),
+    },
+    {
+      name: 'Poisons',
+      category: 'poison',
+      description: 'SRD poisons with type, price, and effects.',
+      die_type: 'd14',
+      entries: JSON.stringify([
+        { min: 1, max: 1, text: 'Assassin\'s Blood (Ingested, 150 gp): DC 10 CON save or take 6 (1d12) poison damage and be poisoned for 24 hours. On success, half damage and not poisoned.' },
+        { min: 2, max: 2, text: 'Burnt Othur Fumes (Inhaled, 500 gp): DC 13 CON save or take 10 (3d6) poison damage, must repeat save each turn. Three successes end it. On failure, take 3 (1d6) poison damage.' },
+        { min: 3, max: 3, text: 'Crawler Mucus (Contact, 200 gp): DC 13 CON save or be poisoned for 1 minute. While poisoned, creature is paralyzed. Repeat save at end of each turn.' },
+        { min: 4, max: 4, text: 'Drow Poison (Injury, 200 gp): DC 13 CON save or be poisoned for 1 hour. If save fails by 5+, creature is unconscious while poisoned.' },
+        { min: 5, max: 5, text: 'Essence of Ether (Inhaled, 300 gp): DC 15 CON save or become poisoned for 8 hours. While poisoned, creature is unconscious. Wakes if it takes damage or someone uses an action to shake it.' },
+        { min: 6, max: 6, text: 'Malice (Inhaled, 250 gp): DC 15 CON save or become poisoned for 1 hour. While poisoned, creature is blinded.' },
+        { min: 7, max: 7, text: 'Midnight Tears (Ingested, 1,500 gp): Creature suffers no effect until midnight. At midnight, DC 17 CON save or take 31 (9d6) poison damage. Half on success.' },
+        { min: 8, max: 8, text: 'Oil of Taggit (Contact, 400 gp): DC 13 CON save or be poisoned for 24 hours. While poisoned, creature is unconscious. Wakes if it takes damage.' },
+        { min: 9, max: 9, text: 'Pale Tincture (Ingested, 250 gp): DC 16 CON save or take 3 (1d6) poison damage and be poisoned. Repeat save every 24 hours — on fail, take 3 (1d6) damage. Three successes end it.' },
+        { min: 10, max: 10, text: 'Purple Worm Poison (Injury, 2,000 gp): DC 19 CON save or take 42 (12d6) poison damage. Half on success.' },
+        { min: 11, max: 11, text: 'Serpent Venom (Injury, 200 gp): DC 11 CON save or take 10 (3d6) poison damage. Half on success.' },
+        { min: 12, max: 12, text: 'Torpor (Ingested, 600 gp): DC 15 CON save or become poisoned for 4d6 hours. While poisoned, creature is incapacitated.' },
+        { min: 13, max: 13, text: 'Truth Serum (Ingested, 150 gp): DC 11 CON save or become poisoned for 1 hour. While poisoned, creature can\'t knowingly speak a lie.' },
+        { min: 14, max: 14, text: 'Wyvern Poison (Injury, 1,200 gp): DC 15 CON save or take 24 (7d6) poison damage. Half on success.' },
+      ]),
+    },
+    {
+      name: 'Diseases',
+      category: 'disease',
+      description: 'SRD diseases with contraction methods and effects.',
+      die_type: 'd3',
+      entries: JSON.stringify([
+        { min: 1, max: 1, text: 'Cackle Fever: Spread by humanoids only. Symptoms manifest 1d4 hours after infection — fever and disorientation. DC 13 CON save after each long rest; on failure gain 1 level of exhaustion. On success, DC decreases by 1d6. At DC 0, creature recovers. While infected, any event causing great stress (combat, taking damage, fear) triggers 1 minute of cackling, incapacitating the creature.' },
+        { min: 2, max: 2, text: 'Sewer Plague: Spread by contact with filth (rats, otyughs, trash). Symptoms manifest 1d4 days after infection — fatigue, cramps. Infected creature suffers one level of exhaustion, regains only half normal HP from spending hit dice, and no HP from long rests. DC 11 CON save after each long rest; on failure gain 1 level of exhaustion. Two consecutive saves = recovery.' },
+        { min: 3, max: 3, text: 'Sight Rot: Spread by drinking contaminated water. Symptoms start 1 day after infection — eyes become cloudy, painful. -1 penalty to attack rolls and ability checks requiring sight. After each long rest, penalty worsens by 1. At -5, creature is blinded until cured. DC 15 CON save after each long rest; two consecutive saves = recovery. Can also be cured by rare eyebright flower found in swamps.' },
+      ]),
+    },
+    {
+      name: 'Acolyte Personality Traits',
+      category: 'personality',
+      description: 'Personality traits for the Acolyte background.',
+      die_type: 'd8',
+      entries: JSON.stringify([
+        { min: 1, max: 1, text: 'I idolize a particular hero of my faith, and constantly refer to that person\'s deeds and example.' },
+        { min: 2, max: 2, text: 'I can find common ground between the fiercest enemies, empathizing with them and always working toward peace.' },
+        { min: 3, max: 3, text: 'I see omens in every event and action. The gods try to speak to us, we just need to listen.' },
+        { min: 4, max: 4, text: 'Nothing can shake my optimistic attitude.' },
+        { min: 5, max: 5, text: 'I quote (or misquote) sacred texts and proverbs in almost every situation.' },
+        { min: 6, max: 6, text: 'I am tolerant (or intolerant) of other faiths and respect (or condemn) the worship of other gods.' },
+        { min: 7, max: 7, text: 'I\'ve enjoyed fine food, drink, and high society among my temple\'s elite. Rough living grates on me.' },
+        { min: 8, max: 8, text: 'I\'ve spent so long in the temple that I have little practical experience dealing with people in the outside world.' },
+      ]),
+    },
+    {
+      name: 'Acolyte Ideals',
+      category: 'personality',
+      description: 'Ideals for the Acolyte background.',
+      die_type: 'd6',
+      entries: JSON.stringify([
+        { min: 1, max: 1, text: 'Tradition. The ancient traditions of worship and sacrifice must be preserved and upheld. (Lawful)' },
+        { min: 2, max: 2, text: 'Charity. I always try to help those in need, no matter what the personal cost. (Good)' },
+        { min: 3, max: 3, text: 'Change. We must help bring about the changes the gods are constantly working in the world. (Chaotic)' },
+        { min: 4, max: 4, text: 'Power. I hope to one day rise to the top of my faith\'s religious hierarchy. (Lawful)' },
+        { min: 5, max: 5, text: 'Faith. I trust that my deity will guide my actions. I have faith that if I work hard, things will go well. (Lawful)' },
+        { min: 6, max: 6, text: 'Aspiration. I seek to prove myself worthy of my god\'s favor by matching my actions against his or her teachings. (Any)' },
+      ]),
+    },
+    {
+      name: 'Acolyte Bonds',
+      category: 'personality',
+      description: 'Bonds for the Acolyte background.',
+      die_type: 'd6',
+      entries: JSON.stringify([
+        { min: 1, max: 1, text: 'I would die to recover an ancient relic of my faith that was lost long ago.' },
+        { min: 2, max: 2, text: 'I will someday get revenge on the corrupt temple hierarchy who branded me a heretic.' },
+        { min: 3, max: 3, text: 'I owe my life to the priest who took me in when my parents died.' },
+        { min: 4, max: 4, text: 'Everything I do is for the common people.' },
+        { min: 5, max: 5, text: 'I will do anything to protect the temple where I served.' },
+        { min: 6, max: 6, text: 'I seek to preserve a sacred text that my enemies consider heretical and seek to destroy.' },
+      ]),
+    },
+    {
+      name: 'Acolyte Flaws',
+      category: 'personality',
+      description: 'Flaws for the Acolyte background.',
+      die_type: 'd6',
+      entries: JSON.stringify([
+        { min: 1, max: 1, text: 'I judge others harshly, and myself even more severely.' },
+        { min: 2, max: 2, text: 'I put too much trust in those who wield power within my temple\'s hierarchy.' },
+        { min: 3, max: 3, text: 'My piety sometimes leads me to blindly trust those that profess faith in my god.' },
+        { min: 4, max: 4, text: 'I am inflexible in my thinking.' },
+        { min: 5, max: 5, text: 'I am suspicious of strangers and expect the worst of them.' },
+        { min: 6, max: 6, text: 'Once I pick a goal, I become obsessed with it to the detriment of everything else in my life.' },
+      ]),
+    },
+  ];
+}
+
 // -- Main --
 
 async function main() {
@@ -619,6 +775,21 @@ async function main() {
   insertRulesTransaction();
   console.error(`Inserted ${ruleSectionsRaw.length} rule sections.`);
 
+  // -- Insert rollable tables (SRD content, hardcoded) --
+  const insertTable = db.prepare(`
+    INSERT OR IGNORE INTO rollable_tables (name, category, description, die_type, entries)
+    VALUES (@name, @category, @description, @die_type, @entries)
+  `);
+
+  const rollableTables = getSrdRollableTables();
+  const insertTablesTransaction = db.transaction(() => {
+    for (const t of rollableTables) {
+      insertTable.run(t);
+    }
+  });
+  insertTablesTransaction();
+  console.error(`Inserted ${rollableTables.length} rollable tables.`);
+
   // Summary
   console.error('\n--- Summary ---');
   const counts = {
@@ -630,6 +801,7 @@ async function main() {
     races: (db.prepare('SELECT COUNT(*) as c FROM races').get() as { c: number }).c,
     conditions: (db.prepare('SELECT COUNT(*) as c FROM conditions').get() as { c: number }).c,
     rules: (db.prepare('SELECT COUNT(*) as c FROM rules').get() as { c: number }).c,
+    rollable_tables: (db.prepare('SELECT COUNT(*) as c FROM rollable_tables').get() as { c: number }).c,
   };
 
   for (const [table, count] of Object.entries(counts)) {

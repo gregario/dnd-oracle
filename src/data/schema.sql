@@ -123,7 +123,17 @@ CREATE TABLE IF NOT EXISTS rules (
   description TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS rollable_tables (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL UNIQUE,
+  category TEXT NOT NULL,
+  description TEXT,
+  die_type TEXT NOT NULL,
+  entries TEXT NOT NULL
+);
+
 -- Indexes
+CREATE INDEX IF NOT EXISTS idx_rollable_tables_category ON rollable_tables(category);
 CREATE INDEX IF NOT EXISTS idx_monsters_cr ON monsters(cr);
 CREATE INDEX IF NOT EXISTS idx_monsters_type ON monsters(type);
 CREATE INDEX IF NOT EXISTS idx_monsters_size ON monsters(size);
@@ -164,7 +174,17 @@ CREATE VIRTUAL TABLE IF NOT EXISTS rules_fts USING fts5(
   content_rowid='id'
 );
 
+CREATE VIRTUAL TABLE IF NOT EXISTS rollable_tables_fts USING fts5(
+  name, category, description,
+  content='rollable_tables',
+  content_rowid='id'
+);
+
 -- Triggers to keep FTS in sync
+CREATE TRIGGER IF NOT EXISTS rollable_tables_ai AFTER INSERT ON rollable_tables BEGIN
+  INSERT INTO rollable_tables_fts(rowid, name, category, description)
+  VALUES (new.id, new.name, new.category, COALESCE(new.description, ''));
+END;
 CREATE TRIGGER IF NOT EXISTS monsters_ai AFTER INSERT ON monsters BEGIN
   INSERT INTO monsters_fts(rowid, name, type, traits, actions)
   VALUES (new.id, new.name, new.type, COALESCE(new.traits, ''), COALESCE(new.actions, ''));

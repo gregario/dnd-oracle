@@ -11,6 +11,7 @@ import type {
   RaceRow,
   ConditionRow,
   RuleRow,
+  RollableTableRow,
   MonsterFilters,
   SpellFilters,
   EquipmentFilters,
@@ -508,4 +509,36 @@ export const CR_XP_TABLE: Record<string, number> = {
 
 export function getXpForCr(cr: string): number {
   return CR_XP_TABLE[cr] ?? 0;
+}
+
+// -- Rollable table queries --
+
+export function listRollableTables(db: Database.Database): RollableTableRow[] {
+  return db
+    .prepare('SELECT * FROM rollable_tables ORDER BY category, name')
+    .all() as RollableTableRow[];
+}
+
+export function getRollableTableByName(
+  db: Database.Database,
+  name: string,
+): RollableTableRow | undefined {
+  return db
+    .prepare('SELECT * FROM rollable_tables WHERE LOWER(name) = LOWER(?)')
+    .get(name) as RollableTableRow | undefined;
+}
+
+export function searchRollableTables(
+  db: Database.Database,
+  query: string,
+): RollableTableRow[] {
+  const ftsQuery = sanitizeFtsQuery(query);
+  if (!ftsQuery) return listRollableTables(db);
+  return db
+    .prepare(
+      `SELECT rt.* FROM rollable_tables rt
+       WHERE rt.id IN (SELECT rowid FROM rollable_tables_fts WHERE rollable_tables_fts MATCH ?)
+       ORDER BY rt.category, rt.name`,
+    )
+    .all(ftsQuery) as RollableTableRow[];
 }
