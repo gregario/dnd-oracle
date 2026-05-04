@@ -1,6 +1,6 @@
 # dnd-oracle
 
-D&D 5e SRD MCP server. 10 tools, 103 tests, 1198 entities.
+D&D 5e SRD MCP server. 20 tools, 150 tests, 1207 entities.
 
 ## Stack
 - TypeScript + MCP SDK + better-sqlite3 + FTS5

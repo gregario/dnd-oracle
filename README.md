@@ -14,9 +14,9 @@ D&D 5e SRD MCP server — monster search, spell lookup, encounter building, and 
 
 ## What It Does
 
-Search, browse, and analyze D&D 5e System Reference Document content — no internet required, no hallucination risk. All 10 tools operate on ground-truth SRD data bundled as a SQLite database.
+Search, browse, and analyze D&D 5e System Reference Document content — no internet required, no hallucination risk. All 20 tools operate on ground-truth SRD data bundled as a SQLite database.
 
-**1,198 entities**: 334 monsters, 319 spells, 237 equipment items, 239 magic items, 12 classes, 9 races, 15 conditions, 33 rule sections.
+**1,207 entities**: 334 monsters, 319 spells, 237 equipment items, 239 magic items, 12 classes, 9 races, 15 conditions, 33 rule sections, 9 rollable tables.
 
 ## Tools
 
@@ -31,14 +31,24 @@ Search, browse, and analyze D&D 5e System Reference Document content — no inte
 | `browse_races` | View race traits, ability bonuses, subraces. |
 | `search_rules` | Search rules text and condition references. |
 
-### Analytical (4)
+### Analytical (14)
 
 | Tool | Description |
 |------|-------------|
 | `build_encounter` | Calculate XP budgets by difficulty. Suggests monster combinations within budget. |
+| `suggest_encounter` | Tactically interesting encounters with monster role inference and synergy notes. |
 | `plan_spells` | Available spells for class/level. Slot tracking, concentration flags, ritual highlights, component costs. |
 | `compare_monsters` | Side-by-side stat comparison of 2-3 monsters. |
+| `check_resistances` | Consolidated resistance/immunity matrix for a group of monsters. Party damage gap warnings. |
 | `analyze_loadout` | Total weight, cost, AC breakdown, encumbrance status from equipment list. |
+| `magic_item_attunement` | Attunement slot analysis with over-limit warnings and restriction checks. |
+| `build_character` | Full character sheet from race + class + level + ability scores. HP, saves, DC, features. |
+| `analyze_party` | Party composition audit: saving throw coverage, role balance, darkvision, languages. |
+| `simulate_damage` | Average DPR calculator with hit probability, crit math, AC sensitivity, turns-to-kill. |
+| `rest_calculator` | What recovers on short vs. long rest for any class at any level. |
+| `travel_calculator` | Overland travel time with pace, terrain, mounts, and forced march rules. |
+| `plan_adventuring_day` | Daily XP budget, encounter sequencing, resource pacing, rest placement. |
+| `roll_table` | Roll on SRD random tables: madness, poisons, diseases, Acolyte personality traits. |
 
 ## Install
 
