@@ -1,6 +1,6 @@
 {
   "name": "dnd-oracle",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "D&D 5e SRD MCP server — monster search, spell lookup, encounter building, and character tools powered by ground-truth SRD data",
   "type": "module",
   "main": "dist/server.js",

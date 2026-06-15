@@ -1,5 +1,5 @@
 {
-  "version": "0.1.2",
+  "version": "0.2.0",
   "tools_count": 10,
   "tests_count": 103,
   "entities_count": 1198,
@@ -21,7 +21,7 @@
     "pr_url": "https://github.com/punkpeye/awesome-mcp-servers/pull/3351"
   },
   "github": {
-    "release_tag": "v0.1.2",
+    "release_tag": "v0.2.0",
     "sponsor_enabled": true
   },
   "ci": {
