@@ -103,10 +103,11 @@ jobs:
           npm install -g npm@latest
           npm publish --access public --provenance
 
-          git add package.json package-lock.json server.json status.json dist/
+          git add package.json package-lock.json server.json status.json
           git commit -m "chore: release v$NEW_VERSION (data sync)"
           git tag "v$NEW_VERSION"
 
+          git checkout -- . || true
           git pull --rebase origin main
           git push origin main
           git push origin "v$NEW_VERSION"
